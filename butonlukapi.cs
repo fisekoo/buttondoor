@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class butonlukapi : MonoBehaviour
 {
-    public float hiz;
-    public GameObject kapi;
-    Vector2 yon;
-    bool basti;
+    public float hiz; // kapının kapanma hızı
+    public GameObject kapi; // kapı objesi
+    Vector2 yon; // kapının kapanacağı yön
+    bool basti; // sadece 1 kere basmak için bool
     private void Start()
     {
-        yon = new Vector2(0, -0.01f);
+        yon = new Vector2(0, -0.01f); // y ekseninde gideceği yön, -0.01f aşağı, 0.01f yukarı doğru gider.
     }
     private void Update()
     {
-        if (basti == true && kapi != null) KapiyiAc();
+        if (basti == true && kapi != null) KapiyiAc(); // bastıysa ve kapı objesi yok edilmediyse yavaşça kapıyı açmaya devam eder
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // butona bastığında butonun yeri ve renginin değişmesi; tek seferlik basma
         if (basti == false)
         {
             basti = true;
@@ -27,13 +28,13 @@ public class butonlukapi : MonoBehaviour
             GetComponent<SpriteRenderer>().color = Color.yellow;
         }
     }
-
+    // tek yönden küçültmek/büyültmek için formül
     void Resize(float hiz, Vector3 yon)
     {
         kapi.transform.position += hiz * yon / 2;
         kapi.transform.localScale += hiz * yon;
     }
-
+    // kapıyı hıza ve yöne göre boyutlandırma ve 0'dan küçük olduğunda kapıyı yok etme
     void KapiyiAc()
     {
         Resize(hiz, yon);
